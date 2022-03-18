@@ -1,0 +1,42 @@
+# applicaiton.yml是用户级的资源配置项
+# bootstrap.yml是系统级的，优先级更加高
+
+#要将Client模块下的application.yml文件改为bootstrap.yml,这是很关键的，
+#因为bootstrap.yml是比application.yml先加载的。bootstrap.yml优先级高于application.yml
+
+server:
+  port: 3355
+
+spring:
+  application:
+    name: config-client
+
+  cloud:
+    #Config 客户端配置
+    config:
+      label: main   #分支名称
+      name: config #配置文件名称
+      profile: dev #读取后缀名称
+      uri: http://localhost:3344 #配置中心地址
+
+  #rabbitmq相关配置 15672是Web管理界面的端口；5672是MQ访问的端口
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+#服务注册到eureka地址
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+
+
+
+# 暴露监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
